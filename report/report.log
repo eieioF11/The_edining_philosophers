@@ -1,9 +1,9 @@
-This is e-pTeX, Version 3.141592653-p3.9.1-210218-2.6 (utf8.euc) (TeX Live 2022/dev/Debian) (preloaded format=platex 2023.1.6)  6 FEB 2023 16:00
+This is e-pTeX, Version 3.141592653-p3.9.1-210218-2.6 (utf8.euc) (TeX Live 2022/dev/Debian) (preloaded format=platex 2022.12.22)  6 FEB 2023 16:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**/home/f11/Git/The_edining_philosophers/report/report
-(/home/f11/Git/The_edining_philosophers/report/report.tex
+**/mnt/c/Git/The_edining_philosophers/report/report
+(/mnt/c/Git/The_edining_philosophers/report/report.tex
 pLaTeX2e <2021-11-15> (based on LaTeX2e <2021-11-15> patch level 1)
 L3 programming layer <2022-01-21> (/usr/share/texlive/texmf-dist/tex/platex/jsclasses/jsarticle.cls
 Document Class: jsarticle 2021/06/28 jsclasses (okumura, texjporg)
@@ -455,44 +455,47 @@ LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
 (Font)              scaled to size 11.53198pt on input line 55.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 75.
+(Font)              scaled to size 8.64899pt on input line 77.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 75.
+(Font)              scaled to size 8.64899pt on input line 77.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 6.72699pt on input line 78.
+(Font)              scaled to size 6.72699pt on input line 80.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 4.805pt on input line 78.
+(Font)              scaled to size 4.805pt on input line 80.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 78.
+(Font)              scaled to size 9.60999pt on input line 80.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 6.72699pt on input line 78.
+(Font)              scaled to size 6.72699pt on input line 80.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 4.805pt on input line 78.
-LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 92.
+(Font)              scaled to size 4.805pt on input line 80.
  [1
 
 ]
-LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 6.72699pt on input line 93.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 93.
+(Font)              scaled to size 9.60999pt on input line 94.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 95.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 95.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 93.
-LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 104.
+(Font)              scaled to size 8.64899pt on input line 95.
+LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 106.
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 ) [2] [3] [4] (./report.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: 2EDB7495EB6C95BB35F55C545976D012;506.
  ) 
 Here is how much of TeX's memory you used:
  12032 strings out of 479850
- 185504 string characters out of 5887379
- 646514 words of memory out of 5000000
+ 185495 string characters out of 5887377
+ 647514 words of memory out of 5000000
  30172 multiletter control sequences out of 15000+600000
  490953 words of font info for 125 fonts, out of 8000000 for 9000
  269 hyphenation exceptions out of 8191
- 60i,8n,64p,293b,1922s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,8n,64p,290b,1922s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.dvi (4 pages, 24000 bytes).
+Output written on report.dvi (4 pages, 24700 bytes).

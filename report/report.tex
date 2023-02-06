@@ -1,7 +1,7 @@
 %\documentclass[a4paper,11pt]{jsarticle}
 \documentclass[a4paper,dvipdfmx]{jsarticle}
 % ページ設定
-\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}% 上下に2.5cm、左右に2.5cmの余白を取る
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}% 上下に2.5cm，左右に2.5cmの余白を取る
 % 数式
 \usepackage{amsmath,amsfonts}
 \usepackage{bm}
@@ -67,7 +67,9 @@
             \item 左のフォークを置く．
          \end{enumerate}
          この場合，全哲学者が左のフォークを持ち，右のフォークが得られなくなるのでデットロック状態になる．\par
-         この問題の解決方法として，
+         この問題の解決方法として，本プログラムでは哲学者の位置の応じて，右もしくは左のフォークを優先するようにした．
+         具体的には，哲学者の番号が奇数のときは左のフォークを先に取得するようにし，偶数のときは右のフォークを先に取得するようにした．
+         これにより，全哲学者が左のフォークを持ち，右のフォークが得られなくなることがなくなるのでデットロック状態を回避することが可能になる．
 
 %=====================================================================
 \section{動作環境}
@@ -99,7 +101,7 @@
 
 %=====================================================================
 \section{実行結果}
-    ループ数3で哲学者が5人の条件でプログラムの実行したときの結果を以下に示す．
+    ループ数3(食事の回数が3回)で哲学者が5人の条件でプログラムの実行したときの結果を以下に示す．
     \begin{lstlisting}[caption=実行結果,label=run_res]
         f11@desktop-f11<TUThumbleERv3>:~/Git/The_edining_philosophers$ ./a.out
         start
@@ -214,10 +216,13 @@
         Philosopher5 put fork5 DONE 
         Philosopher5 put fork4 DONE 
         finish
-    \end{lstlisting}
+    \end{lstlisting}\par
+    以上の結果より，デットロック状態に陥ることがなく1から5番までのすべての哲学者が食事を3回
+    終えることができていることがわかる．
 
 %=====================================================================
 \section{工夫した点・感想}
+    セマフォとforkの取得とforkを置く関数をstructに
 
 
 %=====================================================================
