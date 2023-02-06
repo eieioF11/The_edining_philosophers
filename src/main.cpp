@@ -28,32 +28,42 @@ struct fork
         std::cout << " DONE " << std::endl;
     }
 };
-        std::random_device rnd;     // 非決定的な乱数生成器を生成
-        std::mt19937 mt(rnd());     //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
-        std::uniform_int_distribution<> rand_time(1, 5);
 class philosopher
 {
     private:
-        static void think(int philosopher_number)
+        std::random_device rnd;     // 非決定的な乱数生成器を生成
+        int philosopher_number;
+        fork left;
+        fork right;
+
+        std::thread th;
+
+        void random_wait()//ランダム時間待機
         {
-            std::cout << "Philosopher" << philosopher_number << " thinking" << std::endl;
+            std::mt19937 mt(rnd());     //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
+            std::uniform_int_distribution<> rand_time(1, 5);
             std::chrono::milliseconds timeout(rand_time(mt)*1000);
             std::this_thread::sleep_for(timeout);//ランダム時間待機
         }
-        static void eat(int philosopher_number)
+        void think()
+        {
+            std::cout << "Philosopher" << philosopher_number << " thinking" << std::endl;
+
+            random_wait();
+        }
+        void eat()
         {
             std::cout << "Philosopher" << philosopher_number << " is eating" << std::endl;
 
-            std::chrono::milliseconds timeout(rand_time(mt)*1000);
-            std::this_thread::sleep_for(timeout);//ランダム時間待機
+            random_wait();
 
             std::cout << "Philosopher" << philosopher_number << " has finished eating" << std::endl;
         }
-        static void task(fork &left, fork &right, int philosopher_number)
+        void task()
         {
             for(int i=0;i<LOOP;i++)
             {
-                think(philosopher_number);//思考
+                think();//思考
                 //フォークの取得
                 if(philosopher_number%2==0)
                 {
@@ -66,7 +76,7 @@ class philosopher
                     left.get_fork(philosopher_number);//左のフォーク取得
                 }
 
-                eat(philosopher_number);//食事
+                eat();//食事
 
                 //フォークを置く
                 if(philosopher_number%2==0)
@@ -81,12 +91,14 @@ class philosopher
                 }
             }
         }
-        std::thread th;
     public:
         philosopher(fork &left, fork &right, int philosopher_number)
         {
-            std::cout << "Philosopher " << philosopher_number << " is reading.." << std::endl;
-            th=std::thread(task, std::ref(left), std::ref(right), philosopher_number);
+            this->philosopher_number=philosopher_number;
+            this->left=left;
+            this->right=right;
+            std::cout << "Philosopher " << this->philosopher_number << " is reading.." << std::endl;
+            this->th=std::thread(&philosopher::task,this);//スレッド作成
         }
         std::thread* get_thread()
         {
@@ -99,9 +111,8 @@ int main()
     std::cout << "start\n";
     std::array<fork, THREAD_NUM> forks;              // フォーク
     std::array<std::shared_ptr<philosopher>, THREAD_NUM> philosophers; // 哲学者
-    //std::array<std::thread, THREAD_NUM> philosopher; // 哲学者
 
-    //fork設定
+    //fork 設定
     int fork_count = 1;
     for (auto &f : forks)
     {
@@ -109,26 +120,14 @@ int main()
         sem_init(&f.sem, 0, 1);//1で初期化
         std::cout << "fork " << f.num << std::endl;
     }
+    //哲学者 設定
     philosophers[0] = std::make_shared<philosopher>(forks[0],forks[THREAD_NUM - 1], (0 + 1));
     for (int i = 1; i < THREAD_NUM; ++i)
         philosophers[i] = std::make_shared<philosopher>(forks[i],forks[i - 1], (i + 1));
 
     for (auto &ph : philosophers)
-        ph->get_thread()->join();
-    //哲学者の読み込み
-    /*
-    std::cout << "Philosopher " << (0 + 1) << " is reading.." << std::endl;
-    philosopher[0] = std::thread(task, std::ref(forks[0]), std::ref(forks[THREAD_NUM - 1]), (0 + 1));
+        ph->get_thread()->join();//スレッドの処理が終わるまで待機
 
-    for (int i = 1; i < THREAD_NUM; ++i)
-    {
-        std::cout << "Philosopher " << (i + 1) << " is reading.." << std::endl;
-        philosopher[i] = std::thread(task, std::ref(forks[i]), std::ref(forks[i - 1]), (i + 1));
-    }
-
-    for (auto &ph : philosopher)
-        ph.join();
-    */
     std::cout << "finish\n";
     return 0;
 }
