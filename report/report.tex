@@ -1,0 +1,234 @@
+%\documentclass[a4paper,11pt]{jsarticle}
+\documentclass[a4paper,dvipdfmx]{jsarticle}
+% ページ設定
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}% 上下に2.5cm、左右に2.5cmの余白を取る
+% 数式
+\usepackage{amsmath,amsfonts}
+\usepackage{bm}
+% 画像
+\usepackage[dvipdfmx]{graphicx}
+\usepackage[dvipdfmx]{color}
+% プログラム
+\usepackage{listings,jlisting}
+%プログラム挿入の設定
+\lstset{
+    basicstyle={\ttfamily},
+    identifierstyle={\small},
+    commentstyle={\smallitshape},
+    keywordstyle={\small\bfseries},
+    ndkeywordstyle={\small},
+    stringstyle={\small\ttfamily},
+    frame={tb},
+    breaklines=true,
+    columns=[l]{fullflexible},
+    numbers=left,
+    xrightmargin=0zw,
+    xleftmargin=3zw,
+    numberstyle={\scriptsize},
+    stepnumber=1,
+    numbersep=1zw,
+    lineskip=-0.5ex
+}
+\renewcommand{\lstlistingname}{} % キャプション名の指定
+% URL
+\usepackage{url}
+\usepackage[dvipdfmx]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    citecolor=blue,
+    linkcolor=black,
+    urlcolor=blue,
+}
+%pdfの挿入
+\usepackage{pdfpages}
+
+
+
+\begin{document}
+%=====================================================================
+\title{オペレーティングシステム中間課題}
+\author{}
+\date{\today}
+\maketitle
+%=====================================================================
+\section{プログラムの説明}
+    \subsection{作成したプログラム}
+        哲学者の食事問題を解くプログラムを作成した．
+    \subsection{クリティカルセクションと排他制御について行ったこと}
+        今回作成したプログラムでは，フォークをリソースとして，哲学者がリソースを使用するという形になっている．
+        哲学者がフォークを取得する部分をクリティカルセッションとしていて，優先で取得できるフォークがすでに取得されている場合は
+        使用可能になるまで待機状態になる．\par
+        本プログラムで排他制御を行わなかった場合，それぞれの哲学者は以下のように振る舞う．
+        \begin{enumerate}
+            \item 左のフォークが得られるまで思考し，フォークを取得する．
+            \item 右のフォークが得られるまで思考し，フォークを取得する．
+            \item 食事をする．(1~5秒のランダムな時間待機)
+            \item 右のフォークを置く．
+            \item 左のフォークを置く．
+         \end{enumerate}
+         この場合，全哲学者が左のフォークを持ち，右のフォークが得られなくなるのでデットロック状態になる．\par
+         この問題の解決方法として，
+
+%=====================================================================
+\section{動作環境}
+    \begin{table}[hbtp]
+        \caption{動作環境}
+        \label{table:env}
+        \centering
+        \begin{tabular}{|l|l|}
+        \hline \hline
+        OS  & ubuntu22.04 LTS\\\hline
+        CPU  & Intel® Core™ i7-8700K CPU @ 3.70GHz × 12\\\hline
+        メモリ  & 32.0GB \\\hline
+        コンパイラ  &  g++ version 11.3.0\\\hline
+        使用言語  &  C++17\\
+        \hline \hline
+        \end{tabular}
+    \end{table}
+
+%=====================================================================
+\section{実行手順}
+    プログラムのコンパイルコマンドを以下に示す．
+    \begin{lstlisting}[caption=コンパイル,label=build]
+        g++ -Wall main.cpp -pthread -std=c++17
+    \end{lstlisting}\par
+    以下のコマンドで実行した．
+    \begin{lstlisting}[caption=実行コマンド,label=run]
+        ./a.out
+    \end{lstlisting}
+
+%=====================================================================
+\section{実行結果}
+    ループ数3で哲学者が5人の条件でプログラムの実行したときの結果を以下に示す．
+    \begin{lstlisting}[caption=実行結果,label=run_res]
+        f11@desktop-f11<TUThumbleERv3>:~/Git/The_edining_philosophers$ ./a.out
+        start
+        Philosopher 1 is reading..
+        Philosopher 2 is reading..
+        Philosopher1 thinking
+        Philosopher 3 is reading..
+        Philosopher 4 is reading..
+        Philosopher 5 is reading..
+        Philosopher3 thinking
+        Philosopher4 thinking
+        PhilosopherPhilosopher5 thinking
+        2 thinking
+        Philosopher4 get fork4 DONE 
+        Philosopher4 get fork3 DONE 
+        Philosopher4 is eating
+        Philosopher1 get fork5 DONE 
+        Philosopher1 get fork1 DONE 
+        Philosopher1 is eating
+        Philosopher3 get fork2 DONE 
+        Philosopher3 get fork3Philosopher4 has finished eating
+        Philosopher4 put fork3 DONE 
+        Philosopher4 put fork4 DONE 
+        Philosopher4 thinking
+        DONE 
+        Philosopher3 is eating
+        Philosopher5 get fork4 DONE 
+        Philosopher5 get fork5Philosopher2 get fork2Philosopher3 has finished eating
+        Philosopher3 put fork3 DONE 
+        Philosopher3 put fork2 DONE 
+        Philosopher3 thinking
+        DONE 
+        Philosopher2 get fork1Philosopher1 has finished eating
+        Philosopher1 put fork1 DONE 
+        Philosopher1 put fork5 DONE 
+        Philosopher1 thinking
+        DONE 
+        Philosopher2 is eating
+        DONE 
+        Philosopher5 is eating
+        Philosopher4 get fork4Philosopher3 get fork2Philosopher1 get fork5PhilosopherPhilosopher5 has finished eating
+        Philosopher5 put fork5 DONE 
+        Philosopher5 put fork4 DONE 
+        Philosopher5 thinking
+        DONE 
+        Philosopher4 get fork3 DONE 
+        Philosopher4 is eating
+        DONE 
+        Philosopher1 get fork12 has finished eating
+        Philosopher2 put fork1 DONE 
+        Philosopher2 put fork2 DONE 
+        Philosopher2 thinking
+        DONE  DONE 
+        Philosopher1 is eating
+
+        Philosopher3 get fork3Philosopher4 has finished eating
+        Philosopher4 put fork3 DONE 
+        Philosopher4 put fork4 DONE 
+        Philosopher4 thinking
+        DONE 
+        Philosopher3 is eating
+        Philosopher1 has finished eating
+        Philosopher1 put fork1 DONE 
+        Philosopher1 put fork5 DONE 
+        Philosopher1 thinking
+        Philosopher4 get fork4 DONE 
+        Philosopher4 get fork3Philosopher5 get fork4Philosopher3 has finished eating
+        Philosopher3 put fork3 DONE 
+        Philosopher3 put fork2 DONE 
+        Philosopher3 thinking
+        Philosopher1 get fork5 DONE 
+        Philosopher1 get fork1 DONE 
+        Philosopher1 is eating
+        DONE 
+        Philosopher4 is eating
+        Philosopher2 get fork2 DONE 
+        Philosopher2 get fork1Philosopher4 has finished eating
+        Philosopher4 put fork3 DONE 
+        Philosopher4 put fork4 DONE 
+        DONE 
+        Philosopher5 get fork5Philosopher1 has finished eating
+        Philosopher1 put fork1 DONE 
+        Philosopher1 put fork5 DONE 
+        DONE 
+        Philosopher2 is eating
+        DONE 
+        Philosopher5 is eating
+        Philosopher2 has finished eating
+        Philosopher2 put fork1 DONE 
+        Philosopher2 put fork2 DONE 
+        Philosopher2 thinking
+        Philosopher3 get fork2 DONE 
+        Philosopher3 get fork3 DONE 
+        Philosopher3 is eating
+        Philosopher5 has finished eating
+        Philosopher5 put fork5 DONE 
+        Philosopher5 put fork4 DONE 
+        Philosopher5 thinking
+        Philosopher5 get fork4 DONE 
+        Philosopher5 get fork5 DONE 
+        Philosopher5 is eating
+        Philosopher2 get fork2Philosopher3 has finished eating
+        Philosopher3 put fork3 DONE 
+        Philosopher3 put fork2 DONE 
+        DONE 
+        Philosopher2 get fork1 DONE 
+        Philosopher2 is eating
+        Philosopher2 has finished eating
+        Philosopher2 put fork1 DONE 
+        Philosopher2 put fork2 DONE 
+        Philosopher5 has finished eating
+        Philosopher5 put fork5 DONE 
+        Philosopher5 put fork4 DONE 
+        finish
+    \end{lstlisting}
+
+%=====================================================================
+\section{工夫した点・感想}
+
+
+%=====================================================================
+\section{参考文献}
+\begin{thebibliography}{99}
+    %・Webページ
+    \item Akira Takahashi ," std::thread",cpprefjp - C++日本語リファレンス,\url{https://cpprefjp.github.io/reference/thread/thread.html},2022年11月29日.
+
+\end{thebibliography}
+%=====================================================================
+
+
+
+\end{document}

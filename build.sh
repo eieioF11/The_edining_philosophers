@@ -1,1 +1,1 @@
-g++ -Wall src/main.cpp
+g++ -Wall src/main.cpp -pthread -std=c++17

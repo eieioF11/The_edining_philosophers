@@ -36,14 +36,14 @@ void think(int philosopher_number)
 {
     std::cout << "Philosopher" << philosopher_number << " thinking" << std::endl;
     std::chrono::milliseconds timeout(rand_time(mt)*1000);
-    std::this_thread::sleep_for(timeout);
+    std::this_thread::sleep_for(timeout);//ランダム時間待機
 }
 void eat(int philosopher_number)
 {
     std::cout << "Philosopher" << philosopher_number << " is eating" << std::endl;
 
     std::chrono::milliseconds timeout(rand_time(mt)*1000);
-    std::this_thread::sleep_for(timeout);
+    std::this_thread::sleep_for(timeout);//ランダム時間待機
 
     std::cout << "Philosopher" << philosopher_number << " has finished eating" << std::endl;
 }
@@ -51,29 +51,31 @@ void task(fork &left, fork &right, int philosopher_number)
 {
     for(int i=0;i<LOOP;i++)
     {
-        think(philosopher_number);
-        if(philosopher_number!=THREAD_NUM-1)
+        think(philosopher_number);//思考
+        //フォークの取得
+        if(philosopher_number%2==0)
         {
             left.get_fork(philosopher_number);//左のフォーク取得
             right.get_fork(philosopher_number);//右のフォーク取得
-        }
-        else//THREAD_NUM-1番目の哲学者のフォークを取る順番を変える
-        {
-            right.get_fork(philosopher_number);//右のフォーク取得
-            left.get_fork(philosopher_number);//左のフォーク取得
-        }
-
-        eat(philosopher_number);
-
-        if(philosopher_number!=THREAD_NUM-1)
-        {
-            left.put_fork(philosopher_number);//左のフォークを置く
-            right.put_fork(philosopher_number);//右のフォークを置く
         }
         else
         {
+            right.get_fork(philosopher_number);//右のフォーク取得
+            left.get_fork(philosopher_number);//左のフォーク取得
+        }
+
+        eat(philosopher_number);//食事
+
+        //フォークを置く
+        if(philosopher_number%2==0)
+        {
             right.put_fork(philosopher_number);//右のフォークを置く
             left.put_fork(philosopher_number);//左のフォークを置く
+        }
+        else
+        {
+            left.put_fork(philosopher_number);//左のフォークを置く
+            right.put_fork(philosopher_number);//右のフォークを置く
         }
     }
 }
@@ -92,7 +94,7 @@ int main()
         sem_init(&f.sem, 0, 1);//1で初期化
     }
 
-    // Philosophers Start reading
+    //哲学者の読み込み
     std::cout << "Philosopher " << (0 + 1) << " is reading.." << std::endl;
     philosopher[0] = std::thread(task, std::ref(forks[0]), std::ref(forks[THREAD_NUM - 1]), (0 + 1));
 
